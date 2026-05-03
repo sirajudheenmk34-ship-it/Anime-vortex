@@ -3,61 +3,77 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AnimeVortex | Gallery Upload</title>
+    <title>AnimeVortex | Blue Edition</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap" rel="stylesheet">
     <style>
-        :root { --accent: #ff2e2e; --bg-dark: #050505; --card-bg: #121212; }
+        :root { 
+            --accent: #007bff; /* Bright Blue */
+            --bg-dark: #020b1a; /* Dark Navy Blue */
+            --card-bg: #0a192f; /* Darker Blue for cards */
+            --text-blue: #00d4ff; 
+        }
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { background-color: var(--bg-dark); color: white; font-family: 'Poppins', sans-serif; overflow-x: hidden; }
 
         /* Splash Screen */
         #splash-screen { position: fixed; inset: 0; background: #000; display: flex; flex-direction: column; justify-content: center; align-items: center; z-index: 9999; transition: 0.8s; }
-        .splash-logo { width: 80px; height: 80px; background: var(--accent); border-radius: 15px; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 40px; animation: zoomIn 1s infinite alternate; }
+        .splash-logo { 
+            width: 80px; height: 80px; background: var(--accent); border-radius: 15px; 
+            display: flex; align-items: center; justify-content: center; 
+            font-weight: 800; font-size: 40px; animation: zoomIn 1s infinite alternate; 
+            box-shadow: 0 0 30px rgba(0, 123, 255, 0.6);
+        }
         @keyframes zoomIn { from { transform: scale(1); } to { transform: scale(1.2); } }
 
         /* Main UI */
         #main-content { opacity: 0; transition: 1s; }
         .header-section { padding: 50px 6% 30px; text-align: center; }
         .brand { display: flex; align-items: center; justify-content: center; gap: 15px; margin-bottom: 30px; cursor: pointer; }
-        .logo-icon { width: 50px; height: 50px; background: var(--accent); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 24px; }
-        .brand-name { font-size: 32px; font-weight: 800; text-transform: uppercase; letter-spacing: 2px; }
+        .logo-icon { 
+            width: 50px; height: 50px; background: var(--accent); border-radius: 12px; 
+            display: flex; align-items: center; justify-content: center; 
+            font-weight: 800; font-size: 24px; box-shadow: 0 0 15px rgba(0, 123, 255, 0.4);
+        }
+        .brand-name { font-size: 32px; font-weight: 800; text-transform: uppercase; letter-spacing: 2px; color: var(--text-blue); }
 
         .search-box-container { max-width: 600px; margin: 0 auto; }
-        .search-box-container input { width: 100%; padding: 16px 25px; border-radius: 50px; border: 2px solid #333; background: #1a1a1a; color: white; outline: none; }
+        .search-box-container input { 
+            width: 100%; padding: 16px 25px; border-radius: 50px; 
+            border: 2px solid #1e3a5f; background: #0d2137; color: white; outline: none; 
+        }
+        .search-box-container input:focus { border-color: var(--accent); }
 
         /* Anime Grid */
         .container { padding: 40px 6%; }
         .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 20px; }
-        .card { background: var(--card-bg); border-radius: 12px; overflow: hidden; transition: 0.3s; cursor: pointer; border: 1px solid #222; position: relative; }
-        .card img { width: 100%; height: 230px; object-fit: cover; }
+        .card { background: var(--card-bg); border-radius: 12px; overflow: hidden; transition: 0.3s; cursor: pointer; border: 1px solid #1e3a5f; position: relative; }
+        .card:hover { transform: scale(1.03); border-color: var(--accent); }
+        .card img { width: 100%; height: 230px; object-fit: cover; filter: brightness(0.8); }
         .card-info { padding: 12px; text-align: center; }
+        .card-info h3 { font-size: 14px; color: var(--text-blue); }
         
-        .admin-btns { position: absolute; top: 5px; right: 5px; display: none; flex-direction: column; gap: 5px; }
-        .admin-btns button { padding: 5px 10px; border: none; border-radius: 5px; cursor: pointer; font-size: 10px; font-weight: bold; }
-        .edit-btn { background: #f39c12; color: white; }
-        .del-btn { background: #e74c3c; color: white; }
+        .admin-btns { position: absolute; top: 5px; right: 5px; display: none; }
+        .del-btn { background: #ff4d4d; color: white; border: none; padding: 5px 10px; border-radius: 5px; cursor: pointer; font-size: 10px; }
 
         /* Modals */
-        .overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.95); z-index: 2000; justify-content: center; align-items: center; }
-        .modal-box { width: 90%; max-width: 500px; background: #1a1a1a; padding: 25px; border-radius: 15px; border: 1px solid #333; }
-        .modal-box h2 { margin-bottom: 15px; color: var(--accent); }
-        .modal-box label { font-size: 12px; color: #888; display: block; margin-top: 10px; }
-        .modal-box input { width: 100%; padding: 12px; margin: 5px 0 10px; background: #000; border: 1px solid #333; color: white; border-radius: 5px; }
+        .overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.9); z-index: 2000; justify-content: center; align-items: center; }
+        .modal-box { width: 90%; max-width: 500px; background: #0d2137; padding: 25px; border-radius: 15px; border: 1px solid var(--accent); }
+        .modal-box h2 { margin-bottom: 15px; color: var(--text-blue); }
+        .modal-box input { width: 100%; padding: 12px; margin: 10px 0; background: #020b1a; border: 1px solid #1e3a5f; color: white; border-radius: 5px; }
         .modal-box button { width: 100%; padding: 12px; background: var(--accent); border: none; color: white; font-weight: bold; cursor: pointer; border-radius: 5px; margin-top: 10px; }
         
-        /* Progress Bar */
-        .progress-container { width: 100%; background: #333; border-radius: 5px; display: none; margin-bottom: 10px; }
-        .progress-bar { width: 0%; height: 10px; background: var(--accent); border-radius: 5px; transition: 0.3s; }
+        .progress-container { width: 100%; background: #1e3a5f; border-radius: 5px; display: none; margin: 10px 0; }
+        .progress-bar { width: 0%; height: 8px; background: var(--text-blue); border-radius: 5px; transition: 0.3s; }
 
-        /* Player */
-        iframe, video { width: 100%; aspect-ratio: 16/9; border-radius: 8px; background: #000; }
+        /* Video Player */
+        video { width: 100%; aspect-ratio: 16/9; border-radius: 8px; background: #000; border: 1px solid var(--accent); }
     </style>
 </head>
 <body>
 
     <div id="splash-screen">
         <div class="splash-logo">V</div>
-        <h1 style="margin-top: 20px; letter-spacing: 3px;">ANIMEVORTEX</h1>
+        <h1 style="margin-top: 20px; letter-spacing: 3px; color: #007bff;">ANIMEVORTEX</h1>
     </div>
 
     <div id="main-content">
@@ -67,9 +83,9 @@
                 <div class="brand-name">AnimeVortex</div>
             </div>
             <div class="search-box-container">
-                <input type="text" id="searchBar" placeholder="Search anime...">
+                <input type="text" id="searchBar" placeholder="Search your video...">
             </div>
-            <button id="addBtn" style="display:none; margin-top:20px; padding:10px 20px; background:var(--accent); border:none; color:white; border-radius:5px; cursor:pointer;" onclick="openUploadModal()">+ Add From Gallery</button>
+            <button id="addBtn" style="display:none; margin-top:20px; padding:10px 20px; background:var(--accent); border:none; color:white; border-radius:5px; cursor:pointer;" onclick="openUploadModal()">+ Upload New Video</button>
         </div>
 
         <main class="container">
@@ -77,37 +93,33 @@
         </main>
     </div>
 
-    <!-- Admin Modal -->
+    <!-- Admin Modal (Video Only) -->
     <div id="adminModal" class="overlay">
         <div class="modal-box">
-            <h2 id="modalTitle">Upload Anime</h2>
-            <input type="text" id="animeTitle" placeholder="Anime Title">
+            <h2>Upload Video</h2>
+            <input type="text" id="animeTitle" placeholder="Video Name/Title">
             
-            <label>Select Cover Image (Photo)</label>
-            <input type="file" id="imgFile" accept="image/*">
-            
-            <label>Select Video File</label>
+            <label style="font-size: 12px; color: #888;">Select Video from Gallery</label>
             <input type="file" id="videoFile" accept="video/*">
 
             <div class="progress-container" id="progContainer">
                 <div class="progress-bar" id="progBar"></div>
             </div>
-            <p id="statusMsg" style="font-size: 12px; text-align: center; color: var(--accent);"></p>
+            <p id="statusMsg" style="font-size: 12px; text-align: center; color: var(--text-blue); margin-top: 5px;"></p>
 
             <button id="saveBtn" onclick="handleUpload()">Upload & Save</button>
-            <button style="background:#444;" onclick="closeModal('adminModal')">Cancel</button>
+            <button style="background:#333; margin-top: 10px;" onclick="closeModal('adminModal')">Cancel</button>
         </div>
     </div>
 
-    <!-- Video Player Overlay -->
+    <!-- Video Player -->
     <div id="playerOverlay" class="overlay">
         <div class="player-box" style="width: 95%; max-width: 900px;">
-            <div style="text-align: right; cursor: pointer; padding: 10px;" onclick="closePlayer()">CLOSE</div>
+            <div style="text-align: right; cursor: pointer; padding: 10px; color: var(--text-blue);" onclick="closePlayer()">CLOSE [X]</div>
             <div id="videoContainer"></div>
         </div>
     </div>
 
-    <!-- Firebase SDKs -->
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-storage-compat.js"></script>
@@ -149,11 +161,13 @@
             data.forEach(item => {
                 const card = document.createElement('div');
                 card.className = 'card';
+                // ഡിഫോൾട്ട് ബ്ലൂ അനിമേഷൻ ബാക്ക്ഗ്രൗണ്ട് ഇമേജ് ആയി നൽകുന്നു
+                const defaultImg = "https://img.freepik.com/free-vector/abstract-blue-speed-zoom-background_1017-26154.jpg";
                 card.innerHTML = `
-                    <img src="${item.image}" onclick="openPlayer('${item.url}')">
+                    <img src="${item.image || defaultImg}" onclick="openPlayer('${item.url}')">
                     <div class="card-info"><h3>${item.title}</h3></div>
-                    <div class="admin-btns" style="display:${isAdmin ? 'flex' : 'none'}">
-                        <button class="del-btn" onclick="deleteAnime('${item.id}')">Delete</button>
+                    <div class="admin-btns" style="display:${isAdmin ? 'block' : 'none'}">
+                        <button class="del-btn" onclick="deleteAnime('${item.id}')">X</button>
                     </div>
                 `;
                 grid.appendChild(card);
@@ -162,23 +176,15 @@
 
         async function handleUpload() {
             const title = document.getElementById('animeTitle').value;
-            const imgFile = document.getElementById('imgFile').files[0];
             const videoFile = document.getElementById('videoFile').files[0];
 
-            if(!title || !imgFile || !videoFile) return alert("Please fill all fields!");
+            if(!title || !videoFile) return alert("Title-ഉം Video-യും നിർബന്ധമാണ്!");
 
             document.getElementById('progContainer').style.display = 'block';
             const status = document.getElementById('statusMsg');
 
             try {
-                // Upload Image
-                status.innerText = "Uploading Image...";
-                const imgRef = storage.ref(`images/${Date.now()}_${imgFile.name}`);
-                await imgRef.put(imgFile);
-                const imgUrl = await imgRef.getDownloadURL();
-
-                // Upload Video
-                status.innerText = "Uploading Video (Please wait)...";
+                status.innerText = "അപ്‌ലോഡ് ചെയ്യുന്നു... ദയവായി കാത്തിരിക്കുക";
                 const videoRef = storage.ref(`videos/${Date.now()}_${videoFile.name}`);
                 const uploadTask = videoRef.put(videoFile);
 
@@ -187,19 +193,19 @@
                     document.getElementById('progBar').style.width = progress + '%';
                 }, null, async () => {
                     const videoUrl = await videoRef.getDownloadURL();
-                    db.push({ title, image: imgUrl, url: videoUrl });
-                    status.innerText = "Upload Complete!";
+                    // ഫോട്ടോ ഇല്ലാത്തതുകൊണ്ട് ഒരു ബ്ലൂ ഗ്രാഫിക്സ് ഇമേജ് ഓട്ടോമാറ്റിക് ആയി വരും
+                    const defaultImg = "https://img.freepik.com/free-vector/abstract-blue-speed-zoom-background_1017-26154.jpg";
+                    db.push({ title, image: defaultImg, url: videoUrl });
+                    status.innerText = "വിജയകരമായി അപ്‌ലോഡ് ചെയ്തു!";
                     setTimeout(() => closeModal('adminModal'), 1000);
                 });
-
             } catch (err) {
-                console.error(err);
-                alert("Upload failed! Check Firebase Storage rules.");
+                alert("Error! Rules സെറ്റ് ചെയ്തിട്ടുണ്ടോ എന്ന് പരിശോധിക്കുക.");
             }
         }
 
         function checkAdmin() {
-            if(prompt("Password:") === "9847ni") {
+            if(prompt("അഡ്മിൻ പാസ്‌വേഡ് അടിക്കുക:") === "9847ni") {
                 isAdmin = true;
                 document.getElementById('addBtn').style.display = 'inline-block';
                 renderGrid(animeData);
@@ -208,11 +214,7 @@
 
         function openPlayer(url) {
             const container = document.getElementById('videoContainer');
-            if(url.includes('youtube.com')) {
-                container.innerHTML = `<iframe src="${url}" frameborder="0" allowfullscreen></iframe>`;
-            } else {
-                container.innerHTML = `<video src="${url}" controls autoplay></video>`;
-            }
+            container.innerHTML = `<video src="${url}" controls autoplay></video>`;
             document.getElementById('playerOverlay').style.display = 'flex';
         }
 
@@ -228,10 +230,16 @@
         }
 
         function deleteAnime(id) {
-            if(confirm("Delete it?")) firebase.database().ref('animeData/' + id).remove();
+            if(confirm("ഇത് ഡിലീറ്റ് ചെയ്യട്ടെ?")) firebase.database().ref('animeData/' + id).remove();
         }
 
         function closeModal(id) { document.getElementById(id).style.display = 'none'; }
+
+        document.getElementById('searchBar').addEventListener('input', (e) => {
+            const query = e.target.value.toLowerCase();
+            const filtered = animeData.filter(a => a.title.toLowerCase().includes(query));
+            renderGrid(filtered);
+        });
     </script>
 </body>
 </html>
